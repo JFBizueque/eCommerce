@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto PDF Shop</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #070b14;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      background: rgba(8, 12, 20, 0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #00ffd0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #d7dce6;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: #00ffd0;
+    }
+
+    .nav-button {
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00ffd0, #00b3ff);
+      color: black;
+      font-weight: 700;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 120px 0 100px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,255,208,0.18), transparent 70%);
+      top: -200px;
+      right: -100px;
+      z-index: -1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 4.5rem;
+      line-height: 1.1;
+      margin-bottom: 30px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #9ca8bd;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 620px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #00ffd0, #00b3ff);
+      color: black;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0,255,208,0.2);
+    }
+
+    .secondary-btn {
+      padding: 16px 28px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* HERO CARD */
+
+    .hero-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+
+    .pdf-preview {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .pdf-header {
+      background: #f1f5f9;
+      padding: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #facc15; }
+    .dot.green { background: #22c55e; }
+
+    .pdf-content {
+      padding: 40px;
+      color: #0f172a;
+    }
+
+    .pdf-line {
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .pdf-line.small {
+      width: 40%;
+    }
+
+    .pdf-line.medium {
+      width: 70%;
+    }
+
+    .pdf-line.large {
+      width: 100%;
+    }
+
+    .crypto-badges {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 18px;
+      border-radius: 999px;
+      color: #c7d2e3;
+      font-size: 0.95rem;
+    }
+
+    /* SECTION */
+
+    section {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      font-weight: 800;
+    }
+
+    .section-description {
+      color: #94a3b8;
+      max-width: 700px;
+      line-height: 1.8;
+      margin-bottom: 50px;
+    }
+
+    /* PRODUCTS */
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 26px;
+      overflow: hidden;
+      transition: 0.35s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(0,255,208,0.4);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+    }
+
+    .product-image {
+      height: 260px;
+      background: linear-gradient(135deg, #0f172a, #111827);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+
+    .product-content {
+      padding: 28px;
+    }
+
+    .product-category {
+      color: #00ffd0;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .product-description {
+      color: #94a3b8;
+      line-height: 1.7;
+      margin-bottom: 26px;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .buy-btn {
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00ffd0, #00b3ff);
+      color: black;
+      font-weight: 700;
+    }
+
+    /* FEATURES */
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 35px;
+      border-radius: 24px;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .feature-text {
+      color: #94a3b8;
+      line-height: 1.7;
+    }
+
+    /* CTA */
+
+    .cta {
+      text-align: center;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 80px 40px;
+      border-radius: 40px;
+    }
+
+    .cta h2 {
+      font-size: 3rem;
+      margin-bottom: 24px;
+    }
+
+    .cta p {
+      color: #94a3b8;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 60px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 100px;
+    }
+
+    .footer-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      color: #94a3b8;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width: 1000px) {
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+      }
+
+    }
+
+    @media(max-width: 700px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.7rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cta h2 {
+        font-size: 2.2rem;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+    <div class="container nav-wrapper">
+
+      <div class="logo">
+        PDF<span>CRYPT</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#">Shop</a>
+        <a href="#">Kategorien</a>
+        <a href="#">Bestseller</a>
+        <a href="#">Support</a>
+        <a href="#" class="nav-button">Wallet verbinden</a>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div>
+
+        <h1>
+          Premium PDF-Produkte für moderne Unternehmen.
+        </h1>
+
+        <p>
+          Kaufe professionelle Vorlagen, Business-Dokumente und digitale Systeme mit Bitcoin oder Monero. Sofortiger Download. Maximale Privatsphäre.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#products" class="primary-btn">
+            Produkte entdecken
+          </a>
+
+          <a href="#" class="secondary-btn">
+            Vorschau ansehen
+          </a>
+        </div>
+
+      </div>
+
+      <div class="hero-card">
+
+        <div class="pdf-preview">
+
+          <div class="pdf-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+
+          <div class="pdf-content">
+            <div class="pdf-line large"></div>
+            <div class="pdf-line medium"></div>
+            <div class="pdf-line large"></div>
+            <div class="pdf-line small"></div>
+            <br>
+            <div class="pdf-line large"></div>
+            <div class="pdf-line large"></div>
+            <div class="pdf-line medium"></div>
+          </div>
+
+        </div>
+
+        <div class="crypto-badges">
+          <div class="badge">Bitcoin akzeptiert</div>
+          <div class="badge">Monero akzeptiert</div>
+          <div class="badge">Sofortdownload</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- PRODUCTS -->
+
+  <section id="products">
+    <div class="container">
+
+      <h2 class="section-title">
+        Beliebte Produkte
+      </h2>
+
+      <p class="section-description">
+        Professionelle PDF-Dokumente für Unternehmen, Agenturen und Selbstständige.
+      </p>
+
+      <div class="product-grid">
+
+        <div class="product-card">
+
+          <div class="product-image">
+            📄
+          </div>
+
+          <div class="product-content">
+
+            <div class="product-category">
+              Business
+            </div>
+
+            <h3 class="product-title">
+              Angebotsvorlage Pro
+            </h3>
+
+            <p class="product-description">
+              Moderne Angebotsvorlage für Handwerksbetriebe und Agenturen.
+            </p>
+
+            <div class="product-footer">
+              <div class="price">
+                29 €
+              </div>
+
+              <a href="#" class="buy-btn">
+                Kaufen
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="product-card">
+
+          <div class="product-image">
+            📘
+          </div>
+
+          <div class="product-content">
+
+            <div class="product-category">
+              Schule
+            </div>
+
+            <h3 class="product-title">
+              Mathe Lernsystem
+            </h3>
+
+            <p class="product-description">
+              Komplettes digitales Lernsystem mit Übungen und Zusammenfassungen.
+            </p>
+
+            <div class="product-footer">
+              <div class="price">
+                19 €
+              </div>
+
+              <a href="#" class="buy-btn">
+                Kaufen
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="product-card">
+
+          <div class="product-image">
+            🧾
+          </div>
+
+          <div class="product-content">
+
+            <div class="product-category">
+              Gerüstbau
+            </div>
+
+            <h3 class="product-title">
+              Baustellen Paket
+            </h3>
+
+            <p class="product-description">
+              Checklisten, Sicherheitsformulare und digitale Baustellen-Dokumente.
+            </p>
+
+            <div class="product-footer">
+              <div class="price">
+                49 €
+              </div>
+
+              <a href="#" class="buy-btn">
+                Kaufen
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FEATURES -->
+
+  <section>
+    <div class="container">
+
+      <h2 class="section-title">
+        Warum unser System?
+      </h2>
+
+      <p class="section-description">
+        Entwickelt für schnelle digitale Verkäufe mit maximaler Sicherheit.
+      </p>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Sofortiger Download</div>
+          <div class="feature-text">
+            Kunden erhalten ihre PDFs direkt nach der Crypto-Zahlung.
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">Private Zahlungen</div>
+          <div class="feature-text">
+            Unterstützung für Bitcoin und Monero für maximale Privatsphäre.
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <div class="feature-title">Modernes UI</div>
+          <div class="feature-text">
+            Hochwertiges E-Commerce Design mit Fokus auf Conversion.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CTA -->
+
+  <section>
+    <div class="container">
+
+      <div class="cta">
+
+        <h2>
+          Starte deinen digitalen Vertrieb.
+        </h2>
+
+        <p>
+          Verkaufe PDFs, Vorlagen und digitale Systeme professionell mit Krypto-Zahlungen und automatisierten Downloads.
+        </p>
+
+        <a href="#products" class="primary-btn">
+          Jetzt starten
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    <div class="container footer-wrapper">
+
+      <div>
+        © 2026 PDFCRYPT
+      </div>
+
+      <div class="footer-links">
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">AGB</a>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
